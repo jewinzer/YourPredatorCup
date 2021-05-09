@@ -20,8 +20,8 @@ class HomeController @Inject() (produktDao: ProduktDAO, controllerComponents: Co
   }
 
   def env() = Action { implicit request: Request[AnyContent] =>
-    //Ok("Nothing to see here")
-    Ok(System.getenv("JDBC_DATABASE_URL"))
+    Ok("Nothing to see here")
+    //Ok(System.getenv("JDBC_DATABASE_URL"))
   }
 
   val produktForm = Form(

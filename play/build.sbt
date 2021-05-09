@@ -17,7 +17,8 @@ libraryDependencies ++= Seq(
 Compile / herokuProcessTypes := Map(
   "web" -> "target/universal/stage/bin/play-app-test -Dhttp.port=$PORT",
 )
-herokuJdkVersion in Compile := "11"
+
+Compile / herokuJdkVersion:= "11"
 
 
 

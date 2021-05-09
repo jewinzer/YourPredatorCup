@@ -1,5 +1,23 @@
-@()
+@import model.Produkt
+@(produkte: Seq[Produkt])
 
 @main("Welcome to Play") {
-  <h1>Hello World!</h1>
+  <h1>Willkommen bei spezieller Programmierung!</h1>
+  <div id="produkte">
+    <h2>Erstelle ein Produkt</h2>
+
+    <form action="/insert/produkt" method="POST">
+      <input name="name" type="text" placeholder="name"/>
+      <input name="price" type="number" placeholder="price"/>
+      <input type="submit"/>
+    </form>
+
+    <h2>Bisher erstellte Produkte:</h2>
+    <table>
+      <tr><th>Name</th><th>Preis</th></tr>
+      @for(prod <- produkte){
+        <tr><td>@prod.name</td><td>@prod.price</td></tr>
+      }
+    </table>
+  </div>
 }

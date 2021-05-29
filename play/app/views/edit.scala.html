@@ -5,14 +5,13 @@
         <div class="card">
             <h5 class="card-header">Edit your catch</h5>
             <div class = "card-body">
-                <form action="/update/catch" method="POST">
+                <form method="POST">
                     <div class ="mb-3">
                         <input name="id" type= "hidden" type="number" value="@c.id"/>
                         <input name="name" class="mb-3 form-control" type="text" value="@c.name"/>
                         <input name="species" class="mb-3 form-control" type="text" value="@c.species"/>
                         <input name="length" class="mb-3 form-control" type="number" value="@c.length"/>
-                        <button class="btn btn-sm btn-primary float-end mx-1" type="submit">Update</button>
-                        <button class="btn btn-sm btn-secondary float-end mx-1">&nbsp;Retain&nbsp;</button>
+                        <button formaction ="@routes.HomeController.updateCatch" class="btn btn-sm btn-primary float-end ms-2" type="submit">Update</button>
                     </div>
                 </form>
             </div>

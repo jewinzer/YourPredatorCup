@@ -33,9 +33,9 @@
                             <input type="hidden" name="name" type="text" value="@c.name"/>
                             <input type="hidden" name="species" type="text" value="@c.species"/>
                             <input type="hidden" name="length" type="number" value="@c.length"/>
-                            <button formaction="/delete/catch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">Delete</button>
-                            <button formaction="/duplicate/catch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">&nbsp;Clone&nbsp;</button>
-                            <button formaction="/show/catch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">Update</button>
+                            <button formaction="@routes.HomeController.deleteCatch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">Delete</button>
+                            <button formaction="@routes.HomeController.duplicateCatch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">&nbsp;Clone&nbsp;</button>
+                            <button formaction="@routes.HomeController.showCatch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">Update</button>
                         </form>
                     </div>
                 </div>

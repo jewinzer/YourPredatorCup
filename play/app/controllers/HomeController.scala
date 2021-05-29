@@ -33,26 +33,26 @@ class HomeController @Inject() (catchDao: CatchDAO, controllerComponents: Contro
 
   def insertCatch = Action.async { implicit request =>
     val acatch: Catch = catchForm.bindFromRequest.get
-    catchDao.insert(acatch).map { _ => Redirect(routes.HomeController.index) }
+    catchDao.insert(acatch).map { _ => Redirect(routes.HomeController.index()) }
   }
 
   def deleteCatch = Action.async { implicit request =>
     val c: Catch = catchForm.bindFromRequest.get
-    catchDao.delete(c.id).map { _ => Redirect(routes.HomeController.index) }
+    catchDao.delete(c.id).map { _ => Redirect(routes.HomeController.index()) }
   }
 
   def duplicateCatch = Action.async { implicit request =>
     val c: Catch = catchForm.bindFromRequest.get
-    catchDao.insert(c).map { _ => Redirect(routes.HomeController.index) }
+    catchDao.insert(c).map { _ => Redirect(routes.HomeController.index()) }
   }
 
   def showCatch = Action { implicit request =>
     val c: Catch = catchForm.bindFromRequest.get
-    Ok(views.html.update(c)) }
+    Ok(views.html.edit(c)) }
 
   def updateCatch = Action.async { implicit request =>
     val c: Catch = catchForm.bindFromRequest.get
-    catchDao.update(c).map { _ => Redirect(routes.HomeController.index) }
+    catchDao.update(c).map { _ => Redirect(routes.HomeController.index()) }
   }
 
 

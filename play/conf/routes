@@ -1,6 +1,6 @@
-GET     /                       controllers.HomeController.index()
+GET     /                       controllers.HomeController.index(str: String="")
 
-POST    /                       controllers.HomeController.index()
+POST    /                       controllers.HomeController.index(str: String="")
 
 POST    /insert                 controllers.HomeController.insertCatch
 

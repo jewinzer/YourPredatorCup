@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
 import play.api.data.validation.Constraints._
+import scala.concurrent._
 
 import javax.inject._
 import scala.concurrent.ExecutionContext
@@ -14,7 +15,7 @@ import scala.concurrent.ExecutionContext
 class HomeController @Inject() (catchDao: CatchDAO, controllerComponents: ControllerComponents)
                                (implicit executionContext: ExecutionContext) extends AbstractController(controllerComponents) {
 
-  def index() = Action.async {
+  def index(str : String="") = Action.async {
     catchDao.all().map { case (catches) => Ok(views.html.index(catches)) }
   }
 
@@ -32,8 +33,14 @@ class HomeController @Inject() (catchDao: CatchDAO, controllerComponents: Contro
     (Catch.apply)(Catch.unapply))
 
   def insertCatch = Action.async { implicit request =>
-    val acatch: Catch = catchForm.bindFromRequest.get
-    catchDao.insert(acatch).map { _ => Redirect(routes.HomeController.index()) }
+    val acatch: Option[Catch] = catchForm.bindFromRequest.fold(
+      (form) => None,
+      (ctch)=> Option(ctch)
+    )
+      if (acatch.isDefined)
+         catchDao.insert(acatch.get).map { _ => Redirect(routes.HomeController.index()) }
+      else
+         Future(Redirect(routes.HomeController.index()))
   }
 
   def deleteCatch = Action.async { implicit request =>

@@ -15,13 +15,18 @@ class ProduktDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
 
   def all(): Future[Seq[Produkt]] = db.run(Produkte.result)
 
-  def insert(produkt: Produkt): Future[Unit] = db.run(Produkte += produkt).map { _ => () }
+  def insert(produkt: Produkt): Future[Unit] = db.run(Produkte.map(p => (p.name, p.price)) += (produkt.name, produkt.price)).map { _ => () }
+
+  def delete(id: Int): Future[Unit] = db.run(Produkte.filter( p => p.id === id).delete).map { _ => ()}
+
+  def update(produkt: Produkt): Future[Unit] = db.run(Produkte.insertOrUpdate(produkt)).map { _ => ()}
 
   private class ProduktTable(tag: Tag) extends Table[Produkt](tag, "PRODUKT") {
 
-    def name = column[String]("NAME", O.PrimaryKey)
-    def color = column[Int]("PRICE")
+    def id = column[Int]("ID", O.PrimaryKey)
+    def name = column[String]("NAME")
+    def price = column[Int]("PRICE")
 
-    def * = (name, color) <> (Produkt.tupled, Produkt.unapply)
+    def * = (id, name, price) <> (Produkt.tupled, Produkt.unapply)
   }
 }

@@ -1,0 +1,45 @@
+@import model.Catch
+@(catches: Seq[Catch])
+<div class="card">
+    <div class="card-header fw-bold">
+        <div class="row">
+            <div class="col-3">
+                Name
+            </div>
+            <div class="col-3">
+                Species
+            </div>
+            <div class="col-3">
+                Length
+            </div>
+        </div>
+    </div>
+    <ul class="list-group list-group-flush">
+        @for(c <- catches){
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-3">
+                    @c.name
+                    </div>
+                    <div class="col-3">
+                    @c.species
+                    </div>
+                    <div class="col-3">
+                    @c.length
+                    </div>
+                    <div class="col">
+                        <form method="POST">
+                            <input type="hidden" name="id" type="text" value="@c.id"/>
+                            <input type="hidden" name="name" type="text" value="@c.name"/>
+                            <input type="hidden" name="species" type="text" value="@c.species"/>
+                            <input type="hidden" name="length" type="number" value="@c.length"/>
+                            <button formaction="/delete/catch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">Delete</button>
+                            <button formaction="/duplicate/catch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">&nbsp;Clone&nbsp;</button>
+                            <button formaction="/show/catch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

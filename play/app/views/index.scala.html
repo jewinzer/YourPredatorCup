@@ -1,23 +1,15 @@
-@import model.Produkt
-@(produkte: Seq[Produkt])
+@import model.Catch
+@(catches: Seq[Catch])
 
-@main("Welcome to Play") {
-  <h1>Willkommen bei spezieller Programmierung!</h1>
-  <div id="produkte">
-    <h2>Erstelle ein Produkt</h2>
+@main("No Release –> No Glory") {
+    <div class="row g-5">
+      <div class="col-3">
 
-    <form action="/insert/produkt" method="POST">
-      <input name="name" type="text" placeholder="name"/>
-      <input name="price" type="number" placeholder="price"/>
-      <input type="submit"/>
-    </form>
+          @input()
 
-    <h2>Bisher erstellte Produkte:</h2>
-    <table>
-      <tr><th>Name</th><th>Preis</th></tr>
-      @for(prod <- produkte){
-        <tr><td>@prod.name</td><td>@prod.price</td></tr>
-      }
-    </table>
-  </div>
+      </div>
+      <div class="col-9">
+        @table(catches)
+      </div>
+    </div>
 }

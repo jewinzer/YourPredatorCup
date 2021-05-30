@@ -1,5 +1,5 @@
-@import model.Catch
-@(c: Catch)
+@import model.Ctch
+@(ctch: Ctch)
 @main("Edit"){
     <div class="col-3">
         <div class="card">
@@ -7,11 +7,11 @@
             <div class = "card-body">
                 <form method="POST">
                     <div class ="mb-3">
-                        <input name="id" type= "hidden" type="number" value="@c.id"/>
-                        <input name="name" class="mb-3 form-control" type="text" value="@c.name"/>
-                        <input name="species" class="mb-3 form-control" type="text" value="@c.species"/>
-                        <input name="length" class="mb-3 form-control" type="number" value="@c.length"/>
-                        <button formaction ="@routes.HomeController.updateCatch" class="btn btn-sm btn-primary float-end ms-2" type="submit">Update</button>
+                        <input name="id" type= "hidden" type="number" value="@ctch.id"/>
+                        <input name="name" class="mb-3 form-control" type="text" value="@ctch.name"/>
+                        <input name="species" class="mb-3 form-control" type="text" value="@ctch.species"/>
+                        <input name="length" class="mb-3 form-control" type="number" value="@ctch.length"/>
+                        <button formaction ="@routes.HomeController.updateCtch" class="btn btn-sm btn-primary float-end ms-2" type="submit">Update</button>
                         <button formaction ="@routes.HomeController.index()" class="btn btn-sm btn-secondary float-end ms-2">Retain</button>
                     </div>
                 </form>

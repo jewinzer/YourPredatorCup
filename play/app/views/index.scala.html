@@ -1,7 +1,8 @@
-@import model.Catch
-@(catches: Seq[Catch])
+@import model.Ctch
+@(ctches: Seq[Ctch])
 
 @main("No Release –> No Glory") {
+    <div class="container">
     <div class="row g-5">
       <div class="col-3">
 
@@ -9,7 +10,8 @@
 
       </div>
       <div class="col-9">
-        @table(catches)
+        @table(ctches)
       </div>
+    </div>
     </div>
 }

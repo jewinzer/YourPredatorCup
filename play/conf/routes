@@ -2,15 +2,17 @@ GET     /                       controllers.HomeController.index(str: String="")
 
 POST    /                       controllers.HomeController.index(str: String="")
 
-POST    /insert                 controllers.HomeController.insertCatch
+POST    /insert                 controllers.HomeController.insertCtch
 
-POST    /delete                 controllers.HomeController.deleteCatch
+POST    /delete                 controllers.HomeController.deleteCtch
 
-POST    /duplicate              controllers.HomeController.duplicateCatch
+POST    /duplicate              controllers.HomeController.duplicateCtch
 
-POST    /show                   controllers.HomeController.showCatch
+POST    /show                   controllers.HomeController.showCtch
 
-POST    /update                 controllers.HomeController.updateCatch
+POST    /update                 controllers.HomeController.updateCtch
+
+GET     /scoreboard             controllers.HomeController.scoreboard()
 
 GET     /env                    controllers.HomeController.env()
 

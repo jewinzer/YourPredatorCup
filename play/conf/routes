@@ -1,8 +1,16 @@
-GET     /                       controllers.HomeController.index(str: String="")
+GET     /                       controllers.HomeController.index()
 
-POST    /                       controllers.HomeController.index(str: String="")
+POST    /                       controllers.HomeController.index
 
-POST    /insert                 controllers.HomeController.insertCtch
+GET     /login                  controllers.HomeController.login(message: Option[String])
+
+GET     /signup                 controllers.HomeController.signup(message: Option[String])
+
+POST    /validate/user          controllers.HomeController.validateUser
+
+POST    /validate/login         controllers.HomeController.validateLogin
+
+POST    /insert/ctch            controllers.HomeController.insertCtch
 
 POST    /delete                 controllers.HomeController.deleteCtch
 
@@ -11,8 +19,6 @@ POST    /duplicate              controllers.HomeController.duplicateCtch
 POST    /show                   controllers.HomeController.showCtch
 
 POST    /update                 controllers.HomeController.updateCtch
-
-GET     /scoreboard             controllers.HomeController.scoreboard()
 
 GET     /env                    controllers.HomeController.env()
 

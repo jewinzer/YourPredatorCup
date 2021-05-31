@@ -3,8 +3,8 @@ package daos
 import model.Ctch
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
-
 import javax.inject.Inject
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class CtchDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
@@ -17,7 +17,7 @@ class CtchDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   def insert(ctch: Ctch): Future[Unit] = db.run(Ctches.map(c => (c.name, c.species, c.length)) += (ctch.name, ctch.species, ctch.length)).map { _ => () }
 
-  def delete(id: Int): Future[Unit] = db.run(Ctches.filter( c => c.id === id).delete).map { _ => ()}
+  def delete(id: Int): Future[Unit] = db.run(Ctches.filter(c => c.id === id).delete).map { _ => ()}
 
   def update(ctch: Ctch): Future[Unit] = db.run(Ctches.insertOrUpdate(ctch)).map { _ => ()}
 

@@ -10,6 +10,10 @@ POST    /validate/user          controllers.HomeController.validateUser
 
 POST    /validate/login         controllers.HomeController.validateLogin
 
+GET     /user                   controllers.HomeController.showUserCtches
+
+GET     /logout                 controllers.HomeController.logout
+
 POST    /insert/ctch            controllers.HomeController.insertCtch
 
 POST    /delete                 controllers.HomeController.deleteCtch

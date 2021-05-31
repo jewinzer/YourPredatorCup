@@ -11,12 +11,16 @@ import javax.inject._
 import scala.concurrent.{ExecutionContext, _}
 
 @Singleton
-class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerComponents: MessagesControllerComponents)
-                               (implicit executionContext: ExecutionContext) extends MessagesAbstractController(controllerComponents) {
+class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerComponents: ControllerComponents)
+                               (implicit executionContext: ExecutionContext) extends AbstractController(controllerComponents) {
 
 
   def login(str: Option[String]) = Action {
     Ok(views.html.login(str))
+  }
+
+  def logout() = Action {
+    Redirect(routes.HomeController.index()).withNewSession
   }
 
 
@@ -31,10 +35,10 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       user => Option(user))
     if (user.isDefined) {
       userDao.exists(user.get).map {
-        case true => Redirect(routes.HomeController.index())
-        case false => Redirect(routes.HomeController.login(Option("Falsche Eingabe")))}
+        case true => Redirect(routes.HomeController.showUserCtches).withSession("user" -> user.get.name)
+        case false => Redirect(routes.HomeController.login(Option("Please try again.")))}
     } else
-        Future(Redirect(routes.HomeController.login(Option("Keine Eingabe"))))
+        Future(Redirect(routes.HomeController.login(Option("Please try again."))))
   }
 
 
@@ -44,16 +48,24 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       user => Option(user))
     if (user.isDefined) {
       userDao.exists(user.get).map {
-        case true =>  Redirect(routes.HomeController.signup(Option("User exists already. Please sign up.")))
+        case true =>  Redirect(routes.HomeController.signup(Option("User taken or input incomplete.")))
         case false => userDao.insert(user.get)
           Redirect(routes.HomeController.index)}
     } else
-      Future(Redirect(routes.HomeController.signup(Option("Input incomplete. Please try again."))))
+      Future(Redirect(routes.HomeController.signup(Option("User taken or input incomplete."))))
   }
 
 
   def index() = Action.async {
     ctchDao.all().map { case (ctches) => Ok(views.html.index(ctches)) }
+  }
+
+  def showUserCtches() = Action.async { request =>
+    val user = request.session.get("user")
+    if (user.isDefined){
+      ctchDao.userAll(user.get).map {case (ctches) => Ok(views.html.user(user.get, ctches))}
+    } else
+      Future(Redirect(routes.HomeController.login(Option("Please log in."))))
   }
 
 
@@ -75,6 +87,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
   private val ctchForm = Form(
     mapping(
       "id" -> number,
+      "userId"->number,
       "name" -> nonEmptyText,
       "species" -> nonEmptyText,
       "length" -> number.verifying(min(1), max(999)))
@@ -88,7 +101,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       (ctch)=> Option(ctch)
     )
       if (ctch.isDefined)
-         ctchDao.insert(ctch.get).map { _ => Redirect(routes.HomeController.index()) }
+         ctchDao.insert(ctch.get).map { _ => Redirect(routes.HomeController.showUserCtches) }
       else
          Future(Redirect(routes.HomeController.index()))
   }
@@ -96,13 +109,13 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
 
   def deleteCtch = Action.async { implicit request =>
     val ctch: Ctch = ctchForm.bindFromRequest.get
-    ctchDao.delete(ctch.id).map { _ => Redirect(routes.HomeController.index()) }
+    ctchDao.delete(ctch).map { _ => Redirect(routes.HomeController.showUserCtches) }
   }
 
 
   def duplicateCtch = Action.async { implicit request =>
     val c: Ctch = ctchForm.bindFromRequest.get
-    ctchDao.insert(c).map { _ => Redirect(routes.HomeController.index()) }
+    ctchDao.insert(c).map { _ => Redirect(routes.HomeController.showUserCtches) }
   }
 
 
@@ -114,7 +127,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
 
   def updateCtch = Action.async { implicit request =>
     val ctch: Ctch = ctchForm.bindFromRequest.get
-    ctchDao.update(ctch).map { _ => Redirect(routes.HomeController.index()) }
+    ctchDao.update(ctch).map { _ => Redirect(routes.HomeController.showUserCtches) }
   }
 }
 

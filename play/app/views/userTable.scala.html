@@ -28,15 +28,16 @@
                     @ctch.length
                     </div>
                     <div class="col">
-                 <!--       <form method="POST">
+                        <form method="POST">
                             <input type="hidden" name="id" type="text" value="@ctch.id"/>
+                            <input type="hidden" name="userId" type="text" value="@ctch.userId"/>
                             <input type="hidden" name="name" type="text" value="@ctch.name"/>
                             <input type="hidden" name="species" type="text" value="@ctch.species"/>
                             <input type="hidden" name="length" type="number" value="@ctch.length"/>
                             <button formaction="@routes.HomeController.deleteCtch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">Delete</button>
                             <button formaction="@routes.HomeController.duplicateCtch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">&nbsp;Clone&nbsp;</button>
                             <button formaction="@routes.HomeController.showCtch" class="btn btn-sm btn-outline-primary float-end mx-1" type="submit">Update</button>
-                        </form>-->
+                        </form>
                     </div>
                 </div>
             </li>

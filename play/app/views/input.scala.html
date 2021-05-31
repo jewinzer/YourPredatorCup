@@ -1,15 +1,18 @@
-@()
+@import model.Ctch
+@(user: String)
 <div class="card">
     <h5 class="card-header">Add your catch</h5>
     <div class = "card-body">
         <form action="@routes.HomeController.insertCtch" method="POST">
             <div class ="mb-3">
                 <input name="id" type= "hidden" type="number" value="1"/>
-                <input name="name" class="mb-3 form-control" type="text" placeholder="Name"/>
+                <input name="userId" type= "hidden" type="number" value="1"/>
+                <input name="name" class="mb-3 form-control" type="text" placeholder="@user"/>
                 <input name="species" class="mb-3 form-control" type="text" placeholder="Species"/>
                 <input name="length" class="mb-3 form-control" type="number" placeholder="Length"/>
                 <button class="btn btn-sm btn-primary float-end" type="submit">Add to list</button>
             </div>
         </form>
     </div>
+    <a class="btn btn-sm btn-primary float-end" href="@routes.HomeController.logout">Logout</a>
 </div>

@@ -1,0 +1,15 @@
+@import model.Ctch
+@(user: String, ctches: Seq[Ctch])
+
+@main("No Release –> No Glory") {
+    <div class="row g-5">
+        <div class="col-3">
+
+        @input(user)
+
+        </div>
+        <div class="col-9">
+        @userTable(ctches)
+        </div>
+    </div>
+}

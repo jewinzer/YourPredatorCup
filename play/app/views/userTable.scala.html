@@ -1,5 +1,5 @@
 @import model.Ctch
-@(ctches: Seq[Ctch])
+@(ctches: Seq[Ctch])(implicit request: RequestHeader)
 <div class="card">
     <div class="card-header fw-bold">
         <div class="row">
@@ -29,6 +29,7 @@
                     </div>
                     <div class="col">
                         <form method="POST">
+                            @helper.CSRF.formField
                             <input type="hidden" name="id" type="text" value="@ctch.id"/>
                             <input type="hidden" name="userId" type="text" value="@ctch.userId"/>
                             <input type="hidden" name="name" type="text" value="@ctch.name"/>

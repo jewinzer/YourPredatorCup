@@ -1,9 +1,10 @@
-@(message: Option[String])
+@(message: Option[String])(implicit request: RequestHeader)
 <div class="card">
     <h5 class="card-header">Login</h5>
     <div class = "card-body">
         <form action="@routes.HomeController.validateLogin" method="POST">
             <div class ="mb-3">
+                @helper.CSRF.formField
                 <input name="id" type= "hidden" type="number" value="1"/>
                 <input name="name" class="mb-3 form-control" type="text" placeholder="Name"/>
                 <input name="password" class="mb-3 form-control" type="password" placeholder="Password"/>

@@ -1,5 +1,5 @@
 @import model.Ctch
-@(ctch: Ctch)
+@(ctch: Ctch)(implicit request: RequestHeader)
 @main("Edit"){
     <div class="col-3">
         <div class="card">
@@ -7,6 +7,7 @@
             <div class = "card-body">
                 <form method="POST">
                     <div class ="mb-3">
+                        @helper.CSRF.formField
                         <input name="id" type= "hidden" type="number" value="@ctch.id"/>
                         <input name="name" class="mb-3 form-control" type="text" value="@ctch.name"/>
                         <input name="species" class="mb-3 form-control" type="text" value="@ctch.species"/>

@@ -1,5 +1,5 @@
 @import model.Ctch
-@(ctches: Seq[Ctch])
+@(ctches: Seq[Ctch])(implicit request: RequestHeader)
 <div class="card">
     <div class="card-header fw-bold">
         <div class="row">

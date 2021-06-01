@@ -1,5 +1,5 @@
 @import model.Ctch
-@(ctches: Seq[Ctch])
+@(ctches: Seq[Ctch])(implicit request: RequestHeader)
 
 @main("No Release –> No Glory") {
     <div class="row g-5">

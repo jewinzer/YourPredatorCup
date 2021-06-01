@@ -13,7 +13,7 @@ import scala.concurrent.{ExecutionContext, _}
 class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerComponents: ControllerComponents)
                                (implicit executionContext: ExecutionContext) extends AbstractController(controllerComponents) {
 
-  def login(str: Option[String]) = Action {
+  def login(str: Option[String]) = Action { implicit request =>
     Ok(views.html.login(str))
   }
 
@@ -23,7 +23,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
   }
 
 
-  def signup(str: Option[String]) = Action {
+  def signup(str: Option[String]) = Action { implicit request =>
     Ok(views.html.signup(str))
   }
 
@@ -51,7 +51,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
   }
 
 
-  def index() = Action.async {
+  def index() = Action.async { implicit request =>
     ctchDao.all().map { case (ctches) => Ok(views.html.index(ctches)) }
   }
 
@@ -125,8 +125,6 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
     val ctch: Ctch = ctchForm.bindFromRequest.get
     ctchDao.update(ctch).map { _ => Redirect(routes.HomeController.showUserCtches) }
   }
-
-
 }
 
 

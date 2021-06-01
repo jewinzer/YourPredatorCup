@@ -6,7 +6,6 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
 import play.api.mvc._
-
 import javax.inject._
 import scala.concurrent.{ExecutionContext, _}
 
@@ -14,10 +13,10 @@ import scala.concurrent.{ExecutionContext, _}
 class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerComponents: ControllerComponents)
                                (implicit executionContext: ExecutionContext) extends AbstractController(controllerComponents) {
 
-
   def login(str: Option[String]) = Action {
     Ok(views.html.login(str))
   }
+
 
   def logout() = Action {
     Redirect(routes.HomeController.index()).withNewSession
@@ -29,30 +28,26 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
   }
 
 
-  def validateLogin() = Action.async { implicit request =>
-    val user: Option[User] = userForm.bindFromRequest.fold(
-      form => None,
-      user => Option(user))
-    if (user.isDefined) {
-      userDao.exists(user.get).map {
-        case true => Redirect(routes.HomeController.showUserCtches).withSession("user" -> user.get.name)
-        case false => Redirect(routes.HomeController.login(Option("Please try again.")))}
+  def validateLogin() = Action.async {implicit request =>
+    val userOpt: Option[User] = userForm.bindFromRequest.fold(form => None, user => Option(user))
+    if (userOpt.isDefined) {
+      userDao.authenticate(userOpt.get).map {
+        case true => Redirect(routes.HomeController.showUserCtches).withSession("name" -> userOpt.get.name)
+        case false => Redirect(routes.HomeController.showUserCtches).withSession("name" -> userOpt.get.name)}
     } else
-        Future(Redirect(routes.HomeController.login(Option("Please try again."))))
+        Future(Redirect(routes.HomeController.showUserCtches).withSession("name" -> userOpt.get.name))
   }
 
 
-  def validateUser() = Action.async { implicit request =>
-    val user: Option[User] = userForm.bindFromRequest.fold(
-      form => None,
-      user => Option(user))
-    if (user.isDefined) {
-      userDao.exists(user.get).map {
-        case true =>  Redirect(routes.HomeController.signup(Option("User taken or input incomplete.")))
-        case false => userDao.insert(user.get)
-          Redirect(routes.HomeController.index)}
+  def validateUser() = Action.async {implicit request =>
+    val userOpt: Option[User] = userForm.bindFromRequest.fold(form => None, user => Option(user))
+    if (userOpt.isDefined) {
+      userDao.authenticate(userOpt.get).map {
+        case true =>  Redirect(routes.HomeController.signup(Option("Redirect 1 from validateUser")))
+        case false => userDao.insert(userOpt.get)
+          Redirect(routes.HomeController.login(Option("Redirect 2 from validateUser")))}
     } else
-      Future(Redirect(routes.HomeController.signup(Option("User taken or input incomplete."))))
+      Future(Redirect(routes.HomeController.signup(Option("Redirect 3 from validateUser"))))
   }
 
 
@@ -60,12 +55,13 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
     ctchDao.all().map { case (ctches) => Ok(views.html.index(ctches)) }
   }
 
-  def showUserCtches() = Action.async { request =>
-    val user = request.session.get("user")
+
+  def showUserCtches() = Action.async {implicit request =>
+    val user = request.session.get("name")
     if (user.isDefined){
       ctchDao.userAll(user.get).map {case (ctches) => Ok(views.html.user(user.get, ctches))}
     } else
-      Future(Redirect(routes.HomeController.login(Option("Please log in."))))
+      Future(Redirect(routes.HomeController.login(Option("Redirect from showUserCtaches"))))
   }
 
 
@@ -129,6 +125,8 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
     val ctch: Ctch = ctchForm.bindFromRequest.get
     ctchDao.update(ctch).map { _ => Redirect(routes.HomeController.showUserCtches) }
   }
+
+
 }
 
 

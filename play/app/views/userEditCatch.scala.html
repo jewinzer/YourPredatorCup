@@ -1,0 +1,4 @@
+@import model.Ctch
+@(ctch: Ctch, ctches: Seq[Ctch])(implicit request: RequestHeader)
+@main("Edit Catch | YourPredatorCup"){@navbar{@navbarUser()}}{@layout1to3{@formEditCatch(ctch)}{@catchesUser(ctches)}}
+

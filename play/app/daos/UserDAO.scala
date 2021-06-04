@@ -15,10 +15,14 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   private val Users = TableQuery[UserTable]
 
+  def getId(user: User): Future[Option[User]] = {
+    val matches = db.run(Users.filter(userRow => userRow.name === user.name).result)
+    matches.map(userRows => userRows.filter(userRow => BCrypt.checkpw(user.password, userRow.password)).headOption)
+  }
+
   def authenticate(user: User): Future[Boolean] = {
     val matches = db.run(Users.filter(userRow => userRow.name === user.name).result)
     matches.map(userRows => userRows.filter(userRow => BCrypt.checkpw(user.password, userRow.password)).nonEmpty)
-      //db.run(Users.filter(userRow => userRow.name ===user.name && userRow.password === user.password).result).map(userRows => userRows.nonEmpty)
     }
 
   def all(): Future[Seq[User]] = db.run(Users.result)

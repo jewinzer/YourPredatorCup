@@ -1,0 +1,18 @@
+@import model.Ctch
+@(ctch: Ctch)(implicit request: RequestHeader)
+<div class="card">
+    <h5 class="card-header">Edit your catch, @ctch.name</h5>
+    <div class = "card-body">
+        <form method="POST">
+            <div class ="mb-3">
+                @helper.CSRF.formField
+                <input name="id" type= "hidden" type="number" value="@ctch.id"/>
+                <input name="userId" type= "hidden" type="number" value="@ctch.userId"/>
+                <input name="name" type= "hidden"  type="text" value="@ctch.name"/>
+                <input name="species" class="mb-3 form-control" type="text" value="@ctch.species"/>
+                <input name="length" class="mb-3 form-control" type="number" value="@ctch.length"/>
+                <button formaction ="@routes.HomeController.updateCtch" class="btn btn-sm btn-primary float-end ms-2" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

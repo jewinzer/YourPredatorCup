@@ -1,6 +1,6 @@
 GET     /                       controllers.HomeController.index()
 
-POST    /                       controllers.HomeController.index
+GET     /scoreboard             controllers.HomeController.scoreboard
 
 GET     /login                  controllers.HomeController.login(message: Option[String])
 

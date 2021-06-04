@@ -1,0 +1,4 @@
+@import model.Ctch
+@(ctches: Seq[Ctch])(implicit request: RequestHeader)
+
+@main("YourPredatorCup"){@navbar{@navbarPublic()}}{@layout1to3{<div></div>}{@catchesPublic(ctches)}}

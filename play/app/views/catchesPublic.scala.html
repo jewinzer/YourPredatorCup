@@ -1,0 +1,22 @@
+@import model.Ctch
+@(ctches: Seq[Ctch])(implicit request: RequestHeader)
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-4">Name</div>
+            <div class="col-4">Species</div>
+            <div class="col-4">cm</div>
+        </div>
+    </div>
+    <ul class="list-group list-group-flush">
+        @for(ctch <- ctches){
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-4">@ctch.name</div>
+                    <div class="col-4">@ctch.species</div>
+                    <div class="col-4">@ctch.length</div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

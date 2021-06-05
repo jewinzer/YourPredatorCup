@@ -18,13 +18,16 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
     Future(Ok(views.html.publicLogin(str)))
   }
 
+
   def logout() = Action.async {
     Future(Redirect(routes.HomeController.index()).withNewSession)
   }
 
+
   def signup(str: Option[String]) = Action.async { implicit request =>
     Future(Ok(views.html.publicSignup(str)))
   }
+
 
   def validateLogin() = Action.async {implicit request =>
     val userOpt: Option[User] = userForm.bindFromRequest.fold(form => None, user => Option(user))
@@ -38,6 +41,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       Future(Redirect(routes.HomeController.login(Option("Please try again."))))
   }
 
+
   def validateUser() = Action.async {implicit request =>
     val userOpt: Option[User] = userForm.bindFromRequest.fold(form => None, user => Option(user))
     if (userOpt.isDefined) {
@@ -49,13 +53,16 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       Future(Redirect(routes.HomeController.signup(Option("Please try again."))))
   }
 
+
   def index() = Action.async { implicit request =>
     ctchDao.all().map { case (ctches) => Ok(views.html.publicScores(ctches)) }
   }
 
+
   def scoreboard() = Action.async{ implicit request =>
     ctchDao.all().map { case (ctches) => Ok(views.html.userScores(ctches)) }
   }
+
 
   def showUserCtches() = Action.async {implicit request =>
     val userName = request.session.get("userName")
@@ -66,6 +73,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
     } else
       Future(Redirect(routes.HomeController.login(Option("Redirect from showUserCtaches"))))
   }
+
 
   def insertCtch = Action.async { implicit request =>
     val ctch: Option[Ctch] = ctchForm.bindFromRequest.fold(
@@ -78,15 +86,18 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
          Future(Redirect(routes.HomeController.showUserCtches))
   }
 
+
   def deleteCtch = Action.async { implicit request =>
     val ctch: Ctch = ctchForm.bindFromRequest.get
     ctchDao.delete(ctch).map { _ => Redirect(routes.HomeController.showUserCtches) }
   }
 
+
   def duplicateCtch = Action.async { implicit request =>
     val c: Ctch = ctchForm.bindFromRequest.get
     ctchDao.insert(c).map { _ => Redirect(routes.HomeController.showUserCtches) }
   }
+
 
   def showCtch = Action.async { implicit request =>
     val ctch: Ctch = ctchForm.bindFromRequest.get
@@ -98,15 +109,18 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       Future(Redirect(routes.HomeController.login(Option("Redirect from showCtch"))))
   }
 
+
   def updateCtch = Action.async { implicit request =>
     val ctch: Ctch = ctchForm.bindFromRequest.get
     ctchDao.update(ctch).map { _ => Redirect(routes.HomeController.showUserCtches) }
   }
 
+
   def env() = Action { implicit request: Request[AnyContent] =>
     Ok("Nothing to see here")
     //Ok(System.getenv("JDBC_DATABASE_URL"))
   }
+
 
   private val userForm = Form(
     mapping(
@@ -115,6 +129,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       "password"-> nonEmptyText)
     (User.apply)(User.unapply)
   )
+
 
   private val ctchForm = Form(
     mapping(

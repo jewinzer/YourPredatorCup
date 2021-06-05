@@ -18,10 +18,6 @@ class CtchDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   def userAll(userName: String, userId: Int): Future[Seq[Ctch]] = db.run(Ctches.filter(
     c => c.name === userName && c.userId ===userId).sortBy(c => c.id.desc).result)
 
-  def userRanked(userName: String, userId: Int): Future[Seq[Ctch]] = ???
-
-  def rankAll(): Future[Seq[Ctch]]= ???
-
   def insert(ctch: Ctch): Future[Unit] = db.run(Ctches.map(
     c => (c.userId, c.name, c.species, c.length)) += (ctch.userId, ctch.name, ctch.species, ctch.length)).map { _ => () }
 

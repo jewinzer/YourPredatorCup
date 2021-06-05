@@ -71,7 +71,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       ctchDao.userAll(userName.get, userId.get.toInt).map {
         case (ctches) => Ok(views.html.userAddCatch(userName.get,userId.get.toInt,ctches))}
     } else
-      Future(Redirect(routes.HomeController.login(Option("Redirect from showUserCtaches"))))
+      Future(Redirect(routes.HomeController.login(Option("Please log in first."))))
   }
 
 
@@ -106,7 +106,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
     if (user.isDefined && userId.isDefined){
       ctchDao.userAll(user.get, userId.get.toInt).map {case (ctches) => Ok(views.html.userEditCatch(ctch, ctches))}
     } else
-      Future(Redirect(routes.HomeController.login(Option("Redirect from showCtch"))))
+      Future(Redirect(routes.HomeController.login(Option("Please log in first."))))
   }
 
 

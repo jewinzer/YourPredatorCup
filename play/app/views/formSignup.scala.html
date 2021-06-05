@@ -5,7 +5,7 @@
         <form action="@routes.HomeController.validateUser" method="POST">
             <div class ="mb-3">
                 @helper.CSRF.formField
-                <input name="id" type= "hidden" type="number" value="1"/>
+                <input name="id" type= "hidden" type="number" value="-1"/>
                 <input name="name" class="mb-3 form-control" type="text" placeholder="Name"/>
                 <input name="password" class="mb-3 form-control" type="password" placeholder="Password"/>
                 <button class="btn btn-sm btn-primary float-end" type="submit">Log in</button>

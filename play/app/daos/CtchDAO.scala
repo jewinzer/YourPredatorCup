@@ -3,8 +3,8 @@ package daos
 import model.Ctch
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
-import javax.inject.Inject
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class CtchDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
@@ -13,10 +13,14 @@ class CtchDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   private val Ctches = TableQuery[CtchTable]
 
-  def all(): Future[Seq[Ctch]] = db.run(Ctches.result)
+  def all(): Future[Seq[Ctch]] = db.run(Ctches.sortBy(c => c.id.desc).result)
 
   def userAll(userName: String, userId: Int): Future[Seq[Ctch]] = db.run(Ctches.filter(
-    c => c.name === userName && c.userId ===userId).result)
+    c => c.name === userName && c.userId ===userId).sortBy(c => c.id.desc).result)
+
+  def userRanked(userName: String, userId: Int): Future[Seq[Ctch]] = ???
+
+  def rankAll(): Future[Seq[Ctch]]= ???
 
   def insert(ctch: Ctch): Future[Unit] = db.run(Ctches.map(
     c => (c.userId, c.name, c.species, c.length)) += (ctch.userId, ctch.name, ctch.species, ctch.length)).map { _ => () }

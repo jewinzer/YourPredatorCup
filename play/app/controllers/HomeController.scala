@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
 import play.api.mvc._
+
 import javax.inject._
 import scala.concurrent._
 
@@ -13,22 +14,22 @@ import scala.concurrent._
 class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerComponents: ControllerComponents)
                                (implicit executionContext: ExecutionContext) extends AbstractController(controllerComponents) {
 
-  def login(str: Option[String]) = Action { implicit request =>
-    Ok(views.html.publicLogin(str))
+  def login(str: Option[String]) = Action.async { implicit request =>
+    Future(Ok(views.html.publicLogin(str)))
   }
 
-  def logout() = Action {
-    Redirect(routes.HomeController.index()).withNewSession
+  def logout() = Action.async {
+    Future(Redirect(routes.HomeController.index()).withNewSession)
   }
 
-  def signup(str: Option[String]) = Action { implicit request =>
-    Ok(views.html.publicSignup(str))
+  def signup(str: Option[String]) = Action.async { implicit request =>
+    Future(Ok(views.html.publicSignup(str)))
   }
 
   def validateLogin() = Action.async {implicit request =>
     val userOpt: Option[User] = userForm.bindFromRequest.fold(form => None, user => Option(user))
     if (userOpt.isDefined) {
-      userDao.getId(userOpt.get).map {
+      userDao.getUser(userOpt.get).map {
       case user: Option[User] =>
         if (user.isDefined) Redirect(routes.HomeController.showUserCtches).withSession(
           "userName" -> user.get.name ,"userId"-> user.get.id.toString)
@@ -74,7 +75,7 @@ class HomeController @Inject() (userDao: UserDAO, ctchDao: CtchDAO, controllerCo
       if (ctch.isDefined)
          ctchDao.insert(ctch.get).map { _ => Redirect(routes.HomeController.showUserCtches) }
       else
-         Future(Redirect(routes.HomeController.index()))
+         Future(Redirect(routes.HomeController.showUserCtches))
   }
 
   def deleteCtch = Action.async { implicit request =>

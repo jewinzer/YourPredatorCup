@@ -1,3 +1,4 @@
 @import model.Ctch
 @(userName: String, userId: Int, ctches: Seq[Ctch])(implicit request: RequestHeader)
-    @main("User | YourPredatorCup"){@navbar{@navbarUser()}}{@layout1to3{@formAddCatch(userName, userId)}{@catchesUser(ctches)}}
+
+@main("User | YourPredatorCup"){@navbar{@navbarUser()}}{@layout1to3{@formAddCatch(userName, userId)}{@catchesUser(ctches)}}

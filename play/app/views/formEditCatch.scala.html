@@ -9,8 +9,14 @@
                 <input name="id" type= "hidden" type="number" value="@ctch.id"/>
                 <input name="userId" type= "hidden" type="number" value="@ctch.userId"/>
                 <input name="name" type= "hidden"  type="text" value="@ctch.name"/>
-                <input name="species" class="mb-3 form-control" type="text" value="@ctch.species"/>
-                <input name="length" class="mb-3 form-control" type="number" value="@ctch.length"/>
+                <select name="species" class="mb-3 form-select" type="text">
+                    <option selected value="@ctch.species">@ctch.species</option>
+                    <option value="Pike">Pike</option>
+                    <option value="Perch">Perch</option>
+                    <option value="Zander">Zander</option>
+                </select>
+                <input class="mb-3 form-control" type="text" placeholder="cm" value="@ctch.length" readonly/>
+                <input name="length" type="range" class="form-range" value="@ctch.length" min="25" max="150" oninput="this.previousElementSibling.value = this.value">
                 <button formaction ="@routes.HomeController.updateCtch" class="btn btn-sm btn-primary float-end ms-2" type="submit">Update</button>
             </div>
         </form>

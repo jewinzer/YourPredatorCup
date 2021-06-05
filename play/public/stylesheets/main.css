@@ -11,7 +11,7 @@
     --info-hover: #1e6ec2 !important;
     --light: #f7f9fa !important;
     --light-hover: #f1f4f9 !important;
-    --shadow: 0 .25rem .5rem rgba(0,0,0,.075) !important
+    --shadow: 0 .5rem .75rem rgba(0,0,0,.075) !important
 }
 
 body {
@@ -34,7 +34,6 @@ body {
 .navbar{
     background-color: var(--primary) !important;
     margin-bottom: 4rem !important;
-    box-shadow: var(--shadow) !important;
 }
 
 .nav-item .btn{
@@ -99,4 +98,22 @@ body {
 
 .hidden {
     display:none !important;
+}
+.form-range{
+    margin: -.5rem 0 1rem 0 !important;
+}
+.form-range::-moz-range-thumb{
+    background-color: var(--secondary) !important;
+}
+.form-range::-webkit-slider-thumb{
+    background-color: var(--secondary) !important;
+}
+.display-1{
+    font-size: 6rem !important;
+}
+.text-prime {
+    color: var(--primary) !important;
+}
+.text-second{
+    color: var(--secondary) !important;
 }

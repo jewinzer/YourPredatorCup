@@ -1,6 +1,6 @@
 # YourPredatorCup
 
-Simple CRUD Web APP simulating a fishing contest
+Simple CRUD Web APP simulating a fishing contest.
 
 Technologies used include:
 - Play Framework
